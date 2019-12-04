@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>rti_dvl</name>
+    <version>0.0.1</version>
+    <description>The RTI DVL ROS driver</description>
+    <maintainer email="jwang92@stevens.edu">Jinkun Wang</maintainer>
+    <license>BSD 3-Clause License</license>
+    <url type="repository">https://github.com/RobustFieldAutonomyLab/bluerov</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>rospy</depend>
+    <depend>python-serial</depend>
+</package>
