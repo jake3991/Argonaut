@@ -1,0 +1,82 @@
+<launch>
+  <arg name="rqt" default="false"/>
+  <arg name="sonar" default="true"/>
+
+  <!-- model: M750d / M1200d -->
+  <arg name="model" default="M750d"/>
+  <arg name="model_2" default="M1200d"/>
+
+  <!-- Start the sonar reading -->
+  <node if="$(arg sonar)" name="sonar_oculus_node_$(arg model)" pkg="sonar_oculus" type="sonar_oculus_node" output="screen">
+    <param name="model" value="$(arg model)"/>
+    <param name="frame" type="string" value="/$(arg model)"/>
+  </node>
+
+  <!-- Start the sonar reading -->
+  <node if="$(arg sonar)" name="sonar_oculus_node_$(arg model_2)" pkg="sonar_oculus" type="sonar_oculus_node" output="screen">
+    <param name="model" value="$(arg model_2)"/>
+    <param name="frame" type="string" value="/$(arg model_2)"/>
+  </node>
+
+  <!-- Start IMU -->
+  <arg name="output" default="screen"/>
+    <arg name="imu" default="vn100"/>
+
+    <arg name="port" default="/dev/ttyTHS1" />
+    <arg name="frame_id" default="$(arg imu)"/>
+    <arg name="baudrate" default="115200"/>
+    <arg name="imu_rate" default="200"/>
+
+    <!-- Sync out settings -->
+    <!-- to disable this just set it to < 0 -->
+    <arg name="sync_rate" default="0"/>
+    <arg name="sync_pulse_width_us" default="1000"/>
+
+    <!-- Binary settings -->
+    <arg name="binary_output" default="true"/>
+    <arg name="binary_async_mode" default="2"/>
+
+    <arg name="imu_compensated" default="false"/>
+
+    <!-- VPE settings -->
+    <arg name="vpe_enable" default="true"/>
+    <arg name="vpe_heading_mode" default="1"/>
+    <arg name="vpe_filtering_mode" default="1"/>
+    <arg name="vpe_tuning_mode" default="1"/>
+
+    <!-- Ros Topic settings -->
+    <arg name="enable_mag" default="false"/>
+    <arg name="enable_pres" default="false"/>
+    <arg name="enable_temp" default="false"/>
+    <arg name="enable_rpy" default="false"/>
+
+    <node pkg="imu_vn_100" name="$(arg imu)" type="imu_vn_100_cont_node" output="$(arg output)">
+        <param name="port" type="string" value="$(arg port)"/>
+        <param name="baudrate" type="int" value="$(arg baudrate)"/>
+        <param name="frame_id" type="string" value="$(arg frame_id)"/>
+        <param name="imu_rate" type="int" value="$(arg imu_rate)"/>
+        <param name="binary_output" type="bool" value="$(arg binary_output)"/>
+        <param name="binary_async_mode" type="int" value="$(arg binary_async_mode)"/>
+        <param name="imu_compensated" type="bool" value="$(arg imu_compensated)"/>
+        <param name="enable_mag" type="bool" value="$(arg enable_mag)"/>
+        <param name="enable_pres" type="bool" value="$(arg enable_pres)"/>
+        <param name="enable_temp" type="bool" value="$(arg enable_temp)"/>
+        <param name="enable_rpy" type="bool" value="$(arg enable_rpy)"/>
+        <param name="sync_rate" type="int" value="$(arg sync_rate)"/>
+        <param name="sync_pulse_width_us" type="int" value="$(arg sync_pulse_width_us)"/>
+        <param name="vpe/enable" type="bool" value="$(arg vpe_enable)"/>
+        <param name="vpe/heading_mode" type="int" value="$(arg vpe_heading_mode)"/>
+        <param name="vpe/filtering_mode" type="int" value="$(arg vpe_filtering_mode)"/>
+        <param name="vpe/tuning_mode" type="int" value="$(arg vpe_tuning_mode)"/>
+    </node>
+
+
+
+
+
+  <!-- Start the sonar vis -->
+  <node pkg="sonar_oculus" name='viewer_750' type='oculus_viewer.py' output='screen' args = 'M750d'>
+  </node>
+
+
+</launch>
