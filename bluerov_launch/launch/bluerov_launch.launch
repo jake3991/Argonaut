@@ -1,0 +1,44 @@
+<launch>
+    <arg name="qgc" default="false"/>
+    <arg name="imu" default="true"/>
+    <arg name="dvl" default="true"/>
+    <arg name="depth" default="false"/>
+    <arg name="sonar" default="false"/>
+    <arg name="gps" default="false"/>
+    <arg name="camera" default="false"/>
+    <arg name="joy" default="false"/>
+
+    <!-- global salinity parameter used by sonar/dvl/depth -->
+    <arg name="water" default="salt"/>
+    <param name="water" type="str" value="$(arg water)"/>
+
+    <!-- extra DVL commands (split by ';') -->
+    <arg name="commands" default=""/>
+
+    <arg name="translation_limit" default="100"/>
+    <arg name="rotation_limit" default="80"/>
+    <!-- cmd_vel limit (max will ouput max PWM) -->
+    <arg name="max_vel" default="0.2"/>
+    <arg name="max_omega" default="0.15"/>
+
+    <include if="$(arg imu)" file="$(find imu_vn_100)/launch/vn_100_cont.launch">
+    </include>
+
+
+    <node if="$(arg dvl)" pkg="rti_dvl" name="rti_dvl" type="rti_dvl_node.py" output="screen">
+        <param name="device" value="/dev/ttyUSB0"/>
+        <param name="commands" value="$(arg commands)"/>
+    </node>
+
+    <node if="$(arg depth)" pkg="bar30_depth" name="bar30_depth" type="bar30_depth_node.py" output="screen">
+        <param name="device" value="udp:192.168.2.1:14552"/>
+    </node>
+
+    <include if="$(arg sonar)" file="$(find sonar_oculus)/launch/sonar_oculus.launch">
+    </include>
+
+    <node if="$(arg gps)" pkg="waterlinked_gps" name="waterlinked_gps_node" type="waterlinked_gps_node.py" output="screen"/>
+
+    <node if="$(arg camera)" pkg="bluerov_launch" name="video" type="video.py" output="screen"/>
+
+</launch>

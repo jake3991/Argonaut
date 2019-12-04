@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>bluerov_bridge</name>
+  <version>0.0.0</version>
+  <description>Bridge between mavlink and ROS</description>
+  <maintainer email="jwang92@stevens.edu">Jinkun Wang</maintainer>
+  <license>BSD 3-Clause License</license>
+  <author >Jinkun Wang</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>python-pymavlink</depend>
+</package>

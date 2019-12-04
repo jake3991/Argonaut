@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>bar30_depth</name>
+    <version>0.0.1</version>
+    <description>The Bar30 depth sensor ROS driver</description>
+    <maintainer email="jwang92@stevens.edu">Jinkun Wang</maintainer>
+    <license>BSD 3-Clause License</license>
+    <url type="repository">https://github.com/RobustFieldAutonomyLab/bluerov</url>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>rospy</depend>
+    <depend>bluerov_bridge</depend>
+</package>

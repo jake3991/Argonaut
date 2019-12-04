@@ -1,2 +1,4 @@
-# Argonaut
-Repo for BlueRov2 Heavy ROS Code
+# BlueROV2 ROS Package 
+
+- [Installation](./INSTALL.md)
+- [Configuration](./CONFIG.md)
