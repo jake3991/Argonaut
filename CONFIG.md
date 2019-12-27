@@ -36,7 +36,8 @@ sudo -H -u pi screen -dm -S video $COMPANION_DIR/tools/streamer.py
 ### IP addresses
 
 - Computer: `192.168.2.1`
-- BlueROV2: `192.168.2.2` user:password: pi:companion
+- BlueROV2 Rasberry PI: `192.168.2.2` user:password: pi:companion
+- BlueROV2 Jetson Nano: `192.168.2.1` user:password: rov2:123
 - Oculus M750d: `192.168.2.3`
 - Oculus M120d: `192.168.2.4`
 
