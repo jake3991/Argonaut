@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package( OpenCV REQUIRED)
 
-
 add_message_files(
    FILES
    OculusFire.msg
@@ -47,6 +46,4 @@ add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    ${roslib_LIBRARIES}
-   ${OpenCV_LIBRARIES}
-
 )

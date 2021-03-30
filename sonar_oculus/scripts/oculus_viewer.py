@@ -53,12 +53,18 @@ def generate_map_xy(ping):
 
 
 def ping_callback(msg):
+    
+
     raw = rospy.get_param('/sonar_oculus_node/Raw', False)
     cm = rospy.get_param('/sonar_oculus_node/Colormap', 1)
+
+    
 
     #decode the compressed image
     img = np.fromstring(msg.ping.data,np.uint8)
     img = cv2.imdecode(img,cv2.IMREAD_COLOR)
+
+    
 
     if raw:
 
@@ -66,6 +72,7 @@ def ping_callback(msg):
         img = cv2.normalize(
             img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
         img = cv2.applyColorMap(img, cm)
+        
         img_msg = bridge.cv2_to_imgmsg(img, encoding="bgr8")
         img_msg.header.stamp = rospy.Time.now()
         img_pub.publish(img_msg)
@@ -87,6 +94,17 @@ def ping_callback(msg):
         img_msg.header.stamp = rospy.Time.now()
         img_pub.publish(img_msg)
 
+    #print img.shape
+    cv2.imshow('image',img)
+   # Press Q on keyboard to  exit
+    if cv2.waitKey(25) & 0xFF == ord('q'):
+      exit(0)
+
+    
+	
+
+    
+
 
 if __name__ == '__main__':
 
@@ -99,15 +117,24 @@ if __name__ == '__main__':
     #if arguments are a valid sonar model, set up the node
     elif (sys.argv[1] == 'M1200d') or (sys.argv[1] == 'M750d'):
 
-	print "Succesfull startup, publishing " + sys.argv[1] + " Sonar"
+	print "Startup, publishing " + sys.argv[1] + " Sonar"
 
 	rospy.init_node('oculus_viewer_'+sys.argv[1])
 
+        print "test"
+
     	topic = rospy.get_param('~topic', '/sonar_oculus_node/'+sys.argv[1]+"/ping")
+
+        print topic
     	ping_sub = rospy.Subscriber(topic, OculusPing,
                                 ping_callback, None, 10)
+
+        print "test 3"
+
     
     	img_pub = rospy.Publisher(topic.rsplit('/', 1)[0] + '/image', Image, queue_size=10)
+
+	print "test 4"
 
     	rospy.spin()
 
