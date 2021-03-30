@@ -1,15 +1,15 @@
 <launch>
     <arg name="qgc" default="false"/>
-    <arg name="imu" default="true"/>
-    <arg name="dvl" default="true"/>
-    <arg name="depth" default="false"/>
-    <arg name="sonar" default="true"/>
+    <arg name="imu" default="false"/>
+    <arg name="dvl" default="false"/>
+    <arg name="depth" default="true"/>
+    <arg name="sonar" default="false"/>
     <arg name="gps" default="false"/>
-    <arg name="camera" default="false"/>
+    <arg name="camera" default="true"/>
     <arg name="joy" default="false"/>
 
     <!-- global salinity parameter used by sonar/dvl/depth -->
-    <arg name="water" default="salt"/>
+    <arg name="water" default="fresh"/>
     <param name="water" type="str" value="$(arg water)"/>
 
     <!-- extra DVL commands (split by ';') -->
@@ -21,12 +21,23 @@
     <arg name="max_vel" default="0.2"/>
     <arg name="max_omega" default="0.15"/>
 
-    <include if="$(arg imu)" file="$(find imu_vn_100)/launch/vn_100_cont.launch">
+    <node pkg="bluerov_launch" name="mavproxy" type="mavproxy.sh"/>
+    <node if="$(arg qgc)" pkg="bluerov_launch" name="qgc" type="qgc.sh"/>
+    <include if="$(arg joy)" file="$(find bluerov_control)/launch/joy_control.launch">
+        <arg name="translation_limit" value="$(arg translation_limit)"/>
+        <arg name="rotation_limit" value="$(arg rotation_limit)"/>
+        <arg name="max_vel" value="$(arg max_vel)"/>
+        <arg name="max_omega" value="$(arg max_omega)"/>
     </include>
 
+    <node if="$(arg imu)" pkg="bluerov_launch" name="connect_vn100_imu" type="connect_vn100_imu.sh"/>
+    <include if="$(arg imu)" file="$(find imu_vn_100)/launch/vn_100_cont.launch">
+        <arg name="port" value="/tmp/vn100_imu"/>
+    </include>
 
+    <node if="$(arg dvl)" pkg="bluerov_launch" name="connect_rti_dvl" type="connect_rti_dvl.sh"/>
     <node if="$(arg dvl)" pkg="rti_dvl" name="rti_dvl" type="rti_dvl_node.py" output="screen">
-        <param name="device" value="/dev/ttyUSB0"/>
+        <param name="device" value="/tmp/rti_dvl"/>
         <param name="commands" value="$(arg commands)"/>
     </node>
 
@@ -35,6 +46,7 @@
     </node>
 
     <include if="$(arg sonar)" file="$(find sonar_oculus)/launch/sonar_oculus.launch">
+        <arg name="rqt" value="true"/>
     </include>
 
     <node if="$(arg gps)" pkg="waterlinked_gps" name="waterlinked_gps_node" type="waterlinked_gps_node.py" output="screen"/>

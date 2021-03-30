@@ -1,5 +1,25 @@
 <launch>
-    <arg name="output" default="screen"/>
+  <arg name="rqt" default="false"/>
+  <arg name="sonar" default="true"/>
+
+  <!-- model: M750d / M1200d -->
+  <arg name="model" default="M750d"/>
+  <arg name="model_2" default="M1200d"/>
+
+  <!-- Start the sonar reading -->
+  <node if="$(arg sonar)" name="sonar_oculus_node_$(arg model)" pkg="sonar_oculus" type="sonar_oculus_node" output="screen">
+    <param name="model" value="$(arg model)"/>
+    <param name="frame" type="string" value="/$(arg model)"/>
+  </node>
+
+  <!-- Start the sonar reading -->
+  <node if="$(arg sonar)" name="sonar_oculus_node_$(arg model_2)" pkg="sonar_oculus" type="sonar_oculus_node" output="screen">
+    <param name="model" value="$(arg model_2)"/>
+    <param name="frame" type="string" value="/$(arg model_2)"/>
+  </node>
+
+  <!-- Start IMU -->
+  <arg name="output" default="screen"/>
     <arg name="imu" default="vn100"/>
 
     <arg name="port" default="/dev/ttyTHS1" />
@@ -49,5 +69,14 @@
         <param name="vpe/filtering_mode" type="int" value="$(arg vpe_filtering_mode)"/>
         <param name="vpe/tuning_mode" type="int" value="$(arg vpe_tuning_mode)"/>
     </node>
+
+
+
+
+
+  <!-- Start the sonar vis -->
+  <node pkg="sonar_oculus" name='viewer_750' type='oculus_viewer.py' output='screen' args = 'M750d'>
+  </node>
+
 
 </launch>
