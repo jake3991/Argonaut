@@ -21,10 +21,11 @@
 #include "OculusClient.h"
 
 //opencv
-#include <cv.h>
+//#include <opencv2/cv.h>
+#include <opencv2/opencv.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <cv_bridge/cv_bridge.h>
-#include <highgui.h>
+#include "opencv2/highgui/highgui.hpp"
 
 // ROS includes
 #include <ros/ros.h>
@@ -301,7 +302,7 @@ int main(int argc, char **argv) {
 	//compression settings
 	std::vector<int> params;
 	params.resize(3,0);
-	params[0] = CV_IMWRITE_JPEG_QUALITY;
+	params[0] = cv::IMWRITE_JPEG_QUALITY;
 	params[1] = 80; 	
 
 	//define a cv_bridge pointer
