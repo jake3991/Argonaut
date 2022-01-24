@@ -21,7 +21,7 @@
     <arg name="max_vel" default="0.2"/>
     <arg name="max_omega" default="0.15"/>
 
-    <include if="$(arg imu)" file="$(find imu_vn_100)/launch/vn_100_cont.launch">
+    <include if="$(arg imu)" file="$(find vectornav)/launch/vectornav.launch">
     </include>
 
 
