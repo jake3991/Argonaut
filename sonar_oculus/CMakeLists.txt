@@ -18,6 +18,7 @@ add_message_files(
    FILES
    OculusFire.msg
    OculusPing.msg
+   OculusPingUncompressed.msg
 )
 
 generate_messages(
