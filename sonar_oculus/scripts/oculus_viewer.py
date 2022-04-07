@@ -20,6 +20,7 @@ bridge = cv_bridge.CvBridge()
 
 to_rad = lambda bearing: bearing * np.pi / 18000
 
+vis_lines = True
 
 def generate_map_xy(ping):
     _res = ping.range_resolution
@@ -76,9 +77,14 @@ def ping_callback(msg):
 
         if cols > img.shape[1]:
             img.resize(rows, cols)
-        img = cv2.remap(img, map_x, map_y, cv2.INTER_LINEAR)
 
-        # img_msg = bridge.cv2_to_imgmsg(img, encoding="mono8")
+        if vis_lines:
+            img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+            cv2.line(img,(334,0),(334,1000),[0,255,0],5)
+            cv2.line(img,(177,0),(177,1000),[0,255,0],5)
+
+
+        img = cv2.remap(img, map_x, map_y, cv2.INTER_LINEAR)
 
         img = cv2.normalize(
             img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
@@ -92,29 +98,24 @@ if __name__ == '__main__':
 
     #if no arguments are passed kill the node	
     if len(sys.argv) < 2:
-	print "Please enter an argument for sonar model"
-	print "for example use rosrun sonar_oculus oculus_viewer.py M1200d"
-	rospy.signal_shutdown("Shutdown")
+        print("Please enter an argument for sonar model")
+        print("for example use rosrun sonar_oculus oculus_viewer.py M1200d")
+        rospy.signal_shutdown("Shutdown")
 
     #if arguments are a valid sonar model, set up the node
     elif (sys.argv[1] == 'M1200d') or (sys.argv[1] == 'M750d'):
-
-	print "Succesfull startup, publishing " + sys.argv[1] + " Sonar"
-
-	rospy.init_node('oculus_viewer_'+sys.argv[1])
-
-    	topic = rospy.get_param('~topic', '/sonar_oculus_node/'+sys.argv[1]+"/ping")
-    	ping_sub = rospy.Subscriber(topic, OculusPing,
+        print("Succesfull startup, publishing " + sys.argv[1] + " Sonar")
+        rospy.init_node('oculus_viewer_'+sys.argv[1])
+        topic = rospy.get_param('~topic', '/sonar_oculus_node/'+sys.argv[1]+"/ping")
+        ping_sub = rospy.Subscriber(topic, OculusPing,
                                 ping_callback, None, 10)
-    
-    	img_pub = rospy.Publisher(topic.rsplit('/', 1)[0] + '/image', Image, queue_size=10)
-
-    	rospy.spin()
+        img_pub = rospy.Publisher(topic.rsplit('/', 1)[0] + '/image', Image, queue_size=10)
+        rospy.spin()
 
     #otherwise its a typo, kill the node
     else:
-	print "Please enter an argument for sonar model, you have entered a typo as your sonar model"
-	print "for example use rosrun sonar_oculus oculus_viewer.py M1200d"
-	rospy.signal_shutdown("Shutdown")
+        print("Please enter an argument for sonar model, you have entered a typo as your sonar model")
+        print("for example use rosrun sonar_oculus oculus_viewer.py M1200d")
+        rospy.signal_shutdown("Shutdown")
  
 
