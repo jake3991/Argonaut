@@ -1,0 +1,24 @@
+<launch>
+
+
+    <node pkg="graph_rviz_plugin" name="alt" type="subtopic_repub.py" output="screen" 
+                        args="/rti/body_velocity/raw/altitude /altitude">
+    </node>
+    
+    <node pkg="graph_rviz_plugin" name="x" type="subtopic_repub.py" output="screen" 
+                        args="/rti/body_velocity/raw/velocity/x /velocity_x">
+    </node>
+
+    <node pkg="graph_rviz_plugin" name="y" type="subtopic_repub.py" output="screen" 
+                        args="/rti/body_velocity/raw/velocity/y /velocity_y">
+    </node>
+
+    <node pkg="graph_rviz_plugin" name="z" type="subtopic_repub.py" output="screen" 
+                        args="/rti/body_velocity/raw/velocity/z /velocity_z">
+    </node>
+    
+    <node pkg="graph_rviz_plugin" name="depth" type="subtopic_repub.py" output="screen" 
+                        args="/bar30/depth/raw/depth /depth">
+    </node>
+    
+</launch>
