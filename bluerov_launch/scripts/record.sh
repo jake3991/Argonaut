@@ -1,0 +1,1 @@
+rosbag record /gyro /vectornav/IMU /vn100/imu/raw /bar30/depth/raw /rti/body_velocity/raw /sonar_oculus_node/M750d/ping /sonar_oculus_node/M1200d/ping
