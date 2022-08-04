@@ -18,6 +18,8 @@ add_message_files(
    FILES
    OculusFire.msg
    OculusPing.msg
+   OculusFireDeprecated.msg
+   OculusPingDeprecated.msg
    OculusPingUncompressed.msg
 )
 
