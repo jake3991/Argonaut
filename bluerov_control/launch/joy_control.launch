@@ -1,0 +1,19 @@
+<launch>
+    <arg name="translation_limit" default="100"/>
+    <arg name="rotation_limit" default="80"/>
+    <arg name="max_vel" default="0.2"/>
+    <arg name="max_omega" default="0.15"/>
+
+    <node pkg="bluerov_control" name="joy_control" type="joy_control.py" output="screen">
+        <param name="translaiton_limit" value="$(arg translation_limit)"/>
+        <param name="rotation_limit" value="$(arg rotation_limit)"/>
+        <param name="max_vel" value="$(arg max_vel)"/>
+        <param name="max_omega" value="$(arg max_omega)"/>
+    </node>
+
+    <node pkg="joy" name="joy" type="joy_node" output="screen">
+        <!-- <param name="autorepeat_rate" value="20"/> -->
+        <param name="coalesce_interval" value="0.02"/>
+    </node>
+
+</launch>

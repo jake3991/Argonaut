@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>bluerov_control</name>
+  <version>0.0.0</version>
+  <description>Send twist message to BlueROV</description>
+  <maintainer email="jwang92@stevens.edu">Jinkun Wang</maintainer>
+  <license>BSD 3-Clause License</license>
+  <author>Jinkun Wang</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>move_base</depend>
+  <depend>teb_local_planner</depend>
+  <depend>map_server</depend>
+  <depend>bluerov_bridge</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>joy</depend>
+</package>
