@@ -17,6 +17,7 @@
   <depend>message_runtime</depend>
   <depend>cv_bridge</depend>
   <depend>python-scipy</depend>
+  <depend>nav_core</depend>
 
   <export> </export>
 </package>
